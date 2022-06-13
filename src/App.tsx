@@ -124,11 +124,11 @@ const Input = ({
   const enterTodo = (e: any): void => {
     const key = e.key;
     {
-      if (key == "Enter" && !e.shiftKey) {
+      if (key == "Enter" && !e.shiftKey && text.trim() != "") {
         setTodoList((todoList) => [
           ...todoList,
           {
-            text: text,
+            text: text.trim(),
             height: textAreaRef.current?.scrollHeight + "px",
             id: nanoid(),
             completed: "none",
@@ -146,14 +146,12 @@ const Input = ({
     const d = new Date();
     if (d.getHours() < 12) {
       setGreeting("good morning");
-    } else if (d.getHours() > 12 && d.getHours() < 17) {
+    } else if (d.getHours() >= 12 && d.getHours() < 17) {
       //if it's after 12pm but before 5pm hehe
       setGreeting("good afternoon");
-    } else if (d.getHours() > 17) {
+    } else if (d.getHours() >= 17) {
       setGreeting("good evening");
-    } else {
-      setGreeting("good afternoon");
-    }
+    } 
   }, []);
   /* if it's morning placeholder says good morning
    *  if it's afternoon placeholder says good afternoon
@@ -173,198 +171,6 @@ const Input = ({
   );
 };
 
-// const Todos = ({
-//   todoList,
-//   setTodoList,
-//   text,
-//   setText,
-// }: {
-//   todoList: Todo[];
-//   setTodoList: React.Dispatch<React.SetStateAction<Todo[]>>;
-//   text: string;
-//   setText: React.Dispatch<React.SetStateAction<string>>;
-// }) => {
-//   // const [cleared, setCleared] = useState<string>();
-//   // const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
-//   // const textOnChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-//   //   setText(event.target.value);
-//   // };
-//   // useEffect(() => {
-//   //   if (textAreaRef && textAreaRef.current) {
-//   //     textAreaRef.current.style.minHeight = "0px";
-//   //     const textAreaHeight = textAreaRef.current.scrollHeight + "px";
-//   //     textAreaRef.current.style.minHeight = textAreaHeight;
-//   //   }
-//   // }, [text]);
-
-//   // const enterTodo = (e: any): void => {
-//   //   const key = e.key;
-//   //   {
-//   //     if (key == "Enter" && !e.shiftKey) {
-//   //       setTodoList((todoList) => [
-//   //         ...todoList,
-//   //         {
-//   //           text: text,
-//   //           height: textAreaRef.current.scrollHeight + "px",
-//   //           id: nanoid(),
-//   //           completed: false,
-//   //         },
-//   //       ]);
-//   //       setText("");
-//   //     }
-//   //     if (key == "Enter" && !e.shiftKey) {
-//   //       e.preventDefault();
-//   //     }
-//   //   }
-//   // };
-
-//   //     for (const item of todoList) {
-//   //       if (item.id == completedTask) { item.completed = 'line-through';
-//   // break;
-//   //     }}
-
-//   //
-
-//   // const editTodo = ( e: React.ChangeEvent<HTMLTextAreaElement>) => {
-//   //  setNewText(e.target.value)};
-
-//   // useEffect(() => {
-//   //   if (textAreaRef && textAreaRef.current) {
-//   //     textAreaRef.current.style.height = "0px";
-//   //     const textAreaHeight = textAreaRef.current.scrollHeight + "px";
-//   //     textAreaRef.current.style.height = textAreaHeight;
-//   //   }
-//   // }, [newText]);
-
-//   // useEffect(() => {
-//   //   localStorage.setItem("todoList", JSON.stringify(todoList.map((Todo)=>{ if (Todo.id ==)})));
-//   // }, [newText]);
-//   // const editTodo = ( event: React.ChangeEvent<HTMLTextAreaElement>) => {
-//   //   setTodoList(
-//   //     todoList.map((Todo) => {
-//   //       if (Todo.text !== event.target.value) {
-//   //       return {...Todo, setText(event.target.value)}
-//   //       } else {return Todo}
-//   //     })
-//   //   );
-//   // };
-
-//   // const enterTodo = (e: any, editedTask: string): void => {
-//   //   const key = e.key;
-//   //   {
-//   //     if (key == "Enter" && !e.shiftKey) {
-//   //       editTodo(editedTask)
-//   //         }
-//   //       }if (key == "Enter" && !e.shiftKey) {
-//   //       e.preventDefault();}}
-
-//   //     }
-//   //
-//   //     }
-//   //   }
-//   // };
-//   // const unCompleteTodo = (unCompletedTask: string) => {
-//   //   setTodoList(
-//   //     todoList.map((Todo) => {
-//   //       if (Todo.id == unCompletedTask && !toggle) {
-//   //         return { ...Todo, completed: "none" };
-//   //       } else {
-//   //         return Todo;
-//   //       }
-//   //     })
-//   //   );
-//   //   setToggle(!toggle);
-//   // };
-//   // // useEffect(()=>{ toggle && },[toggle])
-//   // const [newText, setNewText] = useState<string>(text);
-//   // const textOnChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-//   //   setNewText(event.target.value);
-//   // };
-
-//   // const enterTodo = (e: any, updatedTask: string): void => {
-//   //   const key = e.key;
-//   //   {
-//   //     if (key == "Enter" && !e.shiftKey) {
-//   //       updatedTodo(updatedTask);
-//   //     }
-//   //     if (key == "Enter" && !e.shiftKey) {
-//   //       e.preventDefault();
-//   //     }
-//   //   }
-//   // };
-
-//   const completeTodo = (completedTask: string) => {
-//     setTodoList(
-//       todoList.map((todo) => {
-//         if (todo.id == completedTask) {
-//           if (todo.completed == "none") {
-//             return { ...todo, completed: `line-through` };
-//           } else if (todo.completed == "line-through") {
-//             return { ...todo, completed: `none` };
-//           } else return todo;
-//         } else {
-//           return todo;
-//         }
-//       })
-//     );
-//   };
-
-//   // const updatedTodo = (updatedTask: string) => {
-//   //   localStorage.setItem(
-//   //     "todoList",
-//   //     JSON.stringify(
-//   //       todoList.map((todo) => {
-//   //         if (todo.id == updatedTask) {
-//   //           console.log({ ...todo, text: newText });
-//   //           return { ...todo, text: newText };
-//   //         } else {
-//   //           return todo;
-//   //         }
-//   //       })
-//   //     )
-//   //   );
-//   // };
-
-//   const deleteTodo = (deleteTask: string) => {
-//     setTodoList(
-//       todoList.filter((todo) => {
-//         return todo.id != deleteTask;
-//       })
-//     );
-//   };
-
-//   return (
-//     <>
-//       {todoList.map(({ text, height, id, completed }) => {
-//               <div className="todo-container">
-//               <textarea
-//                 // ref={textAreaRef}
-//                 className="entered-item"
-//                 defaultValue={text}
-//                 style={{ height: `${height}`, textDecoration: `${completed}` }}
-//                 spellCheck="false"
-//                 // onKeyPress={(e) => enterTodo(e, id)}
-//                 // value={newText}
-//                 // onChange={() => textOnChange}
-//               />
-//               <button
-//                 onClick={() => {
-//                   completeTodo(id);
-//                 }}
-//                 className="complete-button"
-//               >
-//                 o
-//               </button>
-//               <button onClick={() => deleteTodo(id)} className="delete-button">
-//                 x
-//               </button>
-//             </div>
-//       })}
-//       {todoList.map(({text, id})=>{<input value={text} key={id}/>})}
-//     </>
-//   );
-// };
-
 const Text = ({
   todoList,
   setTodoList,
@@ -383,11 +189,17 @@ const Text = ({
   id: string;
 }) => {
   const [newText, setNewText] = useState<string>(text);
-  // const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [showSave, setShowSave] = useState<boolean>(false);
   const textOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewText(e.target.value);
   };
-
+  const filterBlanks = () => {
+    setTodoList(
+      todoList.filter((todo) => {
+        return todo.text.trim() != "";
+      })
+    );
+  };
   const completeTodo = (completedTask: string) => {
     setTodoList(
       todoList.map((todo) => {
@@ -405,30 +217,34 @@ const Text = ({
   };
 
   const updatedTodo = (updatedTask: string) => {
-    localStorage.setItem(
-      "todoList",
-      JSON.stringify(
-        todoList.map((todo) => {
-          if (todo.id == updatedTask) {
-            console.log({ ...todo, text: newText });
-            return { ...todo, text: newText };
-          } else {
-            return todo;
-          }
-        })
-      )
-    );
+    if (newText.trim() != "") {
+      const updatedTodo = todoList.map((todo) => {
+        if (todo.id == updatedTask) {
+          return { ...todo, text: newText.trim() };
+        } else {
+          return todo;
+        }
+      });
+
+      setTodoList(updatedTodo);
+    } else {
+      deleteTodo(id);
+    }
+
+    console.log(todoList);
+    setShowSave(false);
   };
 
-  const enterTodo = (e: any, updatedTask: string): void => {
+  const enterTodo = (e: React.KeyboardEvent<HTMLTextAreaElement>, updatedTask: string): void => {
     const key = e.key;
-    {
-      if (key == "Enter" && !e.shiftKey) {
-        updatedTodo(updatedTask);
-      }
-      if (key == "Enter" && !e.shiftKey) {
-        e.preventDefault();
-      }
+
+    console.log(e);
+    setShowSave(true);
+    if (key == "Enter" && !e.shiftKey) {
+      updatedTodo(updatedTask);
+      e.preventDefault();
+      e.currentTarget.blur();
+      setShowSave(false);
     }
   };
 
@@ -439,7 +255,7 @@ const Text = ({
       })
     );
   };
-console.log(`hi` + newText)
+  // const test = (e: React.KeyboardEvent<HTMLTextAreaElement>)
   return (
     <>
       <div className="todo-container">
@@ -448,10 +264,25 @@ console.log(`hi` + newText)
           className="entered-item"
           style={{ height: `${height}`, textDecoration: `${completed}` }}
           spellCheck="false"
-          onKeyPress={(e) => enterTodo(e, id)}
+          onKeyDown={(e) => {
+            enterTodo(e, id);
+          }}
           value={newText}
+          // defaultValue={text}
           onChange={textOnChange}
+          onBlur={() => updatedTodo(id)}
         />
+        {showSave && (
+          <button
+            className="save-button "
+            onClick={() => {
+              setShowSave(false);
+              updatedTodo(id);
+            }}
+          >
+            v
+          </button>
+        )}
         <button
           onClick={() => {
             completeTodo(id);
@@ -574,9 +405,8 @@ const Todos = ({
   return (
     <>
       {todoList.map(({ text, height, id, completed }) => {
-        return(
-        <Text id={id} todoList={todoList} setTodoList={setTodoList} text={text} setText={setText} height={height} completed={completed} />
-      )})}
+        return <Text key={id} id={id} todoList={todoList} setTodoList={setTodoList} text={text} setText={setText} height={height} completed={completed} />;
+      })}
     </>
   );
 };

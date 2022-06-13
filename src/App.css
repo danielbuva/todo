@@ -53,7 +53,7 @@ textarea:focus {
 }
 .entered-item {
   border: none;
-  border-bottom: #ccc;
+  border-bottom: #ccc solid 1px;
   background-color: transparent;
   width: 600px;
 }
@@ -67,14 +67,41 @@ textarea:focus {
   border-bottom: #ccc solid 1px;
   align-items: center;
 }
-.todo-container:hover {
+.todo-container:hover>.entered-item {
   border-bottom: #fff solid 1px;
 }
-.todo-container:hover > .delete-button {
+.entered-item:focus {
+  border-bottom: #fff solid 1px;
+}
+.entered-item:focus>.save-button {
+  display: block;
+  border: black solid;
+}
+.todo-container:hover > .save-button {
   display: block;
 }
 .todo-container:hover > .complete-button {
   display: block;
+}
+.todo-container:hover > .delete-button {
+  display: block;
+}
+.save-button {
+  color: blue;
+  border: none;
+  display: none;
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0;
+}
+.complete-button {
+  color: green;
+  border: none;
+  display: none;
+  cursor: pointer;
+  padding-left: 0px;
+  font-size: 20px;
+  font-weight: 100;
 }
 .delete-button {
   color: red;
@@ -84,16 +111,7 @@ textarea:focus {
   padding-left: 0px;
   font-size: 20px;
 }
-.complete-button {
-  color: green;
-  border: none;
-  display: none;
-  cursor: pointer;
-  margin-right: 0;
-  padding-right: 0;
-  font-size: 20px;
-  font-weight: 100;
-}
+
 .menu {
   font-size: 14px;
   background-color: #fff;
