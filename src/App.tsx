@@ -15,27 +15,23 @@ type Coordinates = {
   x: number;
   y: number;
 };
-
-// const ContextMenu = ({ cords }: { cords: Coordinates }) => {
+// const ContextMenu = ({ cords1 }: { cords1: Coordinates }) => {
 //   return (
 //     <>
 //       <div
 //         className="menu"
 //         style={{
-//           top: cords.y,
-//           left: cords.x,
+//           top: cords1.y,
+//           left: cords1.x,
 //         }}
 //       >
-//         <p>hi</p>
-//         <p>hi</p>
-//         <p>hi</p>
-//         <p>hi</p>
+//         <textarea/>
+
 //       </div>
 //     </>
 //   );
 // };
-
-const Settings = () => {
+const Settings = ({setMargin}:{setMargin: React.Dispatch<SetStateAction<string>>}) => {
   return (
     <>
       <p>theme </p>
@@ -45,7 +41,12 @@ const Settings = () => {
       </div>
       <p>placeholder</p>
       <p>time</p>
-      <p>appearance</p>
+      <div>
+        appearance<p>margin</p>
+        <button onClick={()=>setMargin('App-left')}>left</button>
+        <button onClick={()=>setMargin('App-center')}>center</button>
+        <button onClick={()=>setMargin('App-right')}>right</button>
+      </div>
       <div>
         preferences
         <p>organize completed</p>
@@ -109,7 +110,6 @@ const LocalTime = () => {
       day: "numeric",
       weekday: "long",
     }),
-
     time.clock.toLocaleDateString(),
     "",
   ];
@@ -149,25 +149,27 @@ const ClickForInput = ({
   setText,
   setTodoList,
   cords,
+  setShowTextArea,
 }: {
   text: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
   todoList: Todo[];
   setTodoList: React.Dispatch<React.SetStateAction<Todo[]>>;
   cords: Coordinates;
+  setShowTextArea: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const [greeting, setGreeting] = useState<string>("");
+  // const [greeting, setGreeting] = useState<string>("");
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const textOnChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
   };
-  useEffect(() => {
-    if (textAreaRef && textAreaRef.current) {
-      textAreaRef.current.style.height = "0px";
-      const textAreaHeight = textAreaRef.current.scrollHeight + "px";
-      textAreaRef.current.style.height = textAreaHeight;
-    }
-  }, [text]);
+  // useEffect(() => {
+  //   if (textAreaRef && textAreaRef.current) {
+  //     textAreaRef.current.style.height = "0px";
+  //     const textAreaHeight = textAreaRef.current.scrollHeight + "px";
+  //     textAreaRef.current.style.height = textAreaHeight;
+  //   }
+  // }, [text]);
   const enterTodo = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     const key = e.key;
     {
@@ -190,20 +192,21 @@ const ClickForInput = ({
       }
       if (key == "Enter" && !e.shiftKey) {
         e.preventDefault();
+        e.currentTarget.blur();
       }
     }
   };
-  useEffect(() => {
-    const d = new Date();
-    if (d.getHours() < 12) {
-      setGreeting("good morning");
-    } else if (d.getHours() >= 12 && d.getHours() < 17) {
-      //if it's after 12pm but before 5pm hehe
-      setGreeting("good afternoon");
-    } else if (d.getHours() >= 17) {
-      setGreeting("good evening");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const d = new Date();
+  //   if (d.getHours() < 12) {
+  //     setGreeting("good morning");
+  //   } else if (d.getHours() >= 12 && d.getHours() < 17) {
+  //     //if it's after 12pm but before 5pm hehe
+  //     setGreeting("good afternoon");
+  //   } else if (d.getHours() >= 17) {
+  //     setGreeting("good evening");
+  //   }
+  // }, []);
   /* if it's morning placeholder says good morning
    *  if it's afternoon placeholder says good afternoon
    *  if it's evening placeholder says good evening*/
@@ -213,13 +216,18 @@ const ClickForInput = ({
         spellCheck="false"
         ref={textAreaRef}
         onChange={textOnChange}
-        placeholder={greeting}
-        className="enter-item"
-        onKeyPress={(e) => enterTodo(e)}
+        // placeholder={greeting}
+        className="floating-enter-item"
+        onKeyPress={(e) => {
+          enterTodo(e);
+        }}
+        onBlur={() => setShowTextArea(false)}
         value={text}
+        autoFocus
         style={{
           top: cords.y,
           left: cords.x,
+          // height: textAreaRef.current?.scrollHeight + "px",
         }}
       />
     </>
@@ -482,42 +490,73 @@ function App() {
   const [text, setText] = useState<string>("");
   const [todoList, setTodoList] = useState<Todo[]>(JSON.parse(localStorage.getItem("todoList")!) ?? []);
   const [isShowingSettings, setIsShowingSettings] = useState<boolean>(false);
-
+  // const [cords1, setCords1] = useState<Coordinates>({ x: 0, y: 0 });
+  // const [menu, setMenu] = useState<boolean>(false);
   const [cords, setCords] = useState<Coordinates>({ x: 0, y: 0 });
-  const [textArea, setTextArea] = useState<boolean>(false);
+  const [showTextArea, setShowTextArea] = useState<boolean>(false);
+  const [margin, setMargin]=useState<string>('')
 
+  const handleDoubleClick = useCallback(
+    (event: MouseEvent) => {
+      event.preventDefault();
+      setCords({ x: event.pageX, y: event.pageY });
+      setShowTextArea(true);
+    },
+    [setCords, setShowTextArea]
+  );
+  // const handleClick = useCallback(() => (showTextArea ? setShowTextArea(false) : null), [showTextArea]);
   // const handleContextMenu = useCallback(
-  //   (e: React.MouseEvent) => {
-  //     // event.preventDefault();
-  //     setCords({ x: e.pageX, y: e.pageY });
+  //   (event: any) => {
+  //     event.preventDefault();
+  //     setCords1({ x: event.pageX, y: event.pageY });
+  //     setMenu(true);
+  //   },
+  //   [setCords1, setMenu]
+  // );
+  // const handleContextMenu = useCallback(
+  //   (event: any) => {
+  //     event.preventDefault();
+  //     setCords({ x: event.pageX, y: event.pageY });
   //     setTextArea(true);
   //   },
   //   [setCords, setTextArea]
   // );
 
+  useEffect(() => {
+    document.addEventListener("dblclick", handleDoubleClick);
+    return () => {
+      document.removeEventListener("dblclick", handleDoubleClick);
+    };
+  });
   // useEffect(() => {
-  //   document.addEventListener("Left-click", handleContextMenu);
+  //   document.addEventListener("click", handleClick);
   //   return () => {
-  //     document.removeEventListener("", handleContextMenu);
+  //     document.removeEventListener("click", handleClick);
+  //   };
+  // });
+
+  // useEffect(() => {
+  //   document.addEventListener("contextmenu", handleContextMenu);
+  //   return () => {
+  //     document.removeEventListener("contextmenu", handleContextMenu);
   //   };
   // });
   useEffect(() => {
     localStorage.setItem("todoList", JSON.stringify(todoList));
   }, [todoList]);
   return (
-    <div className="App">
+    <div className={margin}>
+      {/* {menu && <ContextMenu cords1={cords1} />} */}
+      {showTextArea && <ClickForInput cords={cords} setShowTextArea={setShowTextArea} text={text} setText={setText} todoList={todoList} setTodoList={setTodoList} />}
       <Header isShowingSettings={isShowingSettings} setIsShowingSettings={setIsShowingSettings} />
-      {isShowingSettings && <Settings />}
+      {isShowingSettings && <Settings setMargin={setMargin}/>}
       {!isShowingSettings && (
         <>
           <div className="app">
-            {/* {menu && <ContextMenu cords={cords} />} */}
             <LocalTime />
-            <Input text={text} setText={setText} todoList={todoList} setTodoList={setTodoList} />
+            {/* <Input text={text} setText={setText} todoList={todoList} setTodoList={setTodoList} /> */}
             <Todos todoList={todoList} setTodoList={setTodoList} text={text} setText={setText} />
           </div>
-
-          {/* <ClickForInput cords={cords}text={text} setText={setText} todoList={todoList} setTodoList={setTodoList} /> */}
         </>
       )}
     </div>
