@@ -1,5 +1,5 @@
 * {
-  background-color: #ccc;
+  background-color: #d5c0ae;
   caret-color: white;
   height: fit-content;
 }
@@ -8,9 +8,12 @@
 }
 .App {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   font-size: 35px;
   height: 100vh;
+  /* border: black solid; */
 }
 
 .app {
@@ -18,16 +21,41 @@
   flex-direction: column;
   width: 600px;
   text-align: center;
+  /* border: red solid; */
+}
+.nav {
+  display: flex;
+  justify-content: end;
+  /* border: solid blue; */
+  width: 100vw;
+}
+.settings-button {
+  border: none;
+  margin: 20px;
+  opacity: 0.2;
+  transition: all 0.26s ease-out;
+}
+.settings-button:hover {
+  opacity: 1;
 }
 .time {
   height: 50px;
   cursor: pointer;
   margin-bottom: 0;
+  transition: all 0.25 ease-out;
 }
 .date {
   height: 50px;
+  font-size: 20px;
   margin-top: 0;
   cursor: pointer;
+  font-weight: 300;
+}
+.time:hover {
+  opacity: 0.6;
+}
+.date:hover {
+  opacity: 0.7;
 }
 textarea {
   border: none;
@@ -50,30 +78,38 @@ textarea:focus {
 }
 .enter-item::placeholder {
   opacity: 0.5;
+  transition: all 2.6s ease-in-out;
+}
+.enter-item:focus::placeholder {
+  opacity: 0;
 }
 .entered-item {
   border: none;
-  border-bottom: #ccc solid 1px;
+  border-bottom: #d5c0ae solid 1px;
   background-color: transparent;
   width: 600px;
+  padding-right: 12px;
+  /* border: blue solid; */
 }
 .todo-container {
   display: flex;
-  width: 650px;
-  justify-content: space-between;
+  width: 675px;
+  justify-content: flex-start;
   padding-bottom: 5px;
   padding-top: 20px;
   border-bottom-width: 500px;
-  border-bottom: #ccc solid 1px;
+  border-bottom: #d5c0ae solid 1px;
   align-items: center;
+  transition: all 0.25s ease-in-out;
+  /* border: red solid; */
 }
-.todo-container:hover>.entered-item {
+.todo-container:hover > .entered-item {
   border-bottom: #fff solid 1px;
 }
 .entered-item:focus {
   border-bottom: #fff solid 1px;
 }
-.entered-item:focus>.save-button {
+.entered-item:focus > .save-button {
   display: block;
   border: black solid;
 }
@@ -86,11 +122,30 @@ textarea:focus {
 .todo-container:hover > .delete-button {
   display: block;
 }
+.todo-container:hover > .timestamp {
+  display: block;
+}
+
+.timestamp {
+  font-size: 13px;
+  width: 84px;
+  position: absolute;
+  transform: translate(607px, -30px);
+  display: none;
+}
+
 .save-button {
   color: blue;
   border: none;
-  display: none;
   cursor: pointer;
+  font-size: 20px;
+  margin: 0;
+
+  /* border: pink solid; */
+}
+.save-button-space {
+  color: transparent;
+  border: none;
   font-size: 20px;
   margin: 0;
 }
@@ -102,6 +157,7 @@ textarea:focus {
   padding-left: 0px;
   font-size: 20px;
   font-weight: 100;
+  /* border: pink solid; */
 }
 .delete-button {
   color: red;
@@ -110,6 +166,8 @@ textarea:focus {
   cursor: pointer;
   padding-left: 0px;
   font-size: 20px;
+  margin-right: -10px;
+  /* border: pink solid; */
 }
 
 .menu {
@@ -123,15 +181,56 @@ textarea:focus {
   /* use absolute positioning  */
   position: absolute;
   list-style: none;
-  box-shadow: 0 0 20px 0 #ccc;
+  box-shadow: 0 0 20px 0 #c2b5b5;
   opacity: 1;
   transition: opacity 0.5s linear;
 }
 @media only screen and (max-width: 700px) {
+  textarea {
+    -webkit-text-fill-color: white !important;
+    color: white !important;
+    caret-color: white !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
   .app {
     display: flex;
     flex-direction: column;
     width: 300px;
     text-align: center;
+    overflow-x: hidden;
+  }
+  .clock {
+    /* margin-top: -500px; */
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0;
+    z-index: 100;
+  }
+  .todo-container {
+    display: flex;
+    width: 380px;
+    justify-content: flex-start;
+    padding: 0;
+    border-bottom-width: 500px;
+    border-bottom: #d5c0ae solid 1px;
+    align-items: center;
+    transition: all 0.25s ease-in-out;
+    /* border: red solid; */
+  }
+  .entered-item {
+    border: none;
+    border-bottom: #d5c0ae solid 1px;
+    background-color: transparent;
+    width: 250px;
+    margin-bottom: 0;
+    padding: 0;
+    /* border: solid blue; */
+  }
+  .timestamp {
+    font-size: 13px;
+    width: 84px;
+    position: absolute;
+    transform: translate(240px, -30px);
+    display: none;
   }
 }
