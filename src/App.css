@@ -6,22 +6,46 @@
 ::selection {
   background: pink;
 }
-.App {
+.App-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 35px;
+  min-height: 100vh;
+  max-height: fit-content;
+  /* border: black solid; */
+}
+.App-center {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   font-size: 35px;
-  height: 100vh;
+  min-height: 100vh;
+  max-height: fit-content;
+  /* border: black solid; */
+}
+.App-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  font-size: 35px;
+  min-height: 100vh;
+  max-height: fit-content;
   /* border: black solid; */
 }
 
 .app {
+  position: absolute;
   display: flex;
   flex-direction: column;
   width: 600px;
   text-align: center;
   /* border: red solid; */
+  margin-left: 10px;
+  padding-top: 0;
 }
 .nav {
   display: flex;
@@ -30,26 +54,47 @@
   width: 100vw;
 }
 .settings-button {
+  position: absolute;
+  height: 24px;
   border: none;
-  margin: 20px;
   opacity: 0.2;
+  padding: 4px;
   transition: all 0.26s ease-out;
+  /* border: black solid; */
 }
 .settings-button:hover {
   opacity: 1;
 }
+.clock{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: sticky;
+  top: 0;
+  /* border: black solid; */
+}
 .time {
-  height: 50px;
+  display: flex;
+  height: 36px;
+  width: 149px;
   cursor: pointer;
+  font-size: 30px;
   margin-bottom: 0;
   transition: all 0.25 ease-out;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 .date {
-  height: 50px;
+  display: flex;
+  height: 29px;
+  width: 190px;
   font-size: 20px;
   margin-top: 0;
+  margin-bottom: 0;
   cursor: pointer;
   font-weight: 300;
+  /* border: solid black; */
 }
 .time:hover {
   opacity: 0.6;
@@ -169,7 +214,20 @@ textarea:focus {
   margin-right: -10px;
   /* border: pink solid; */
 }
-
+.floating-enter-item {
+  position: absolute;
+  background-color: transparent;
+  height: 44px;
+  border-bottom: 1px solid black;
+  border-radius: -100px;
+  resize: none;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  font-size: 30px;
+}
 .menu {
   font-size: 14px;
   background-color: #fff;
@@ -201,10 +259,14 @@ textarea:focus {
   }
   .clock {
     /* margin-top: -500px; */
+
     position: -webkit-sticky !important;
     position: sticky !important;
     top: 0;
     z-index: 100;
+    border: pink solid;
+    width: fit-content;
+    height: fit-content;
   }
   .todo-container {
     display: flex;
