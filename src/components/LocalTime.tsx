@@ -1,3 +1,4 @@
+import { Text } from "@chakra-ui/react";
 import React, { useState, useEffect, SetStateAction } from "react";
 
 const LocalTime = ({
@@ -115,18 +116,22 @@ const LocalTime = ({
         >
           {isStartingTutorial && tutorialStepOne ? <p className="clock-tutorial">click here for clock</p> : `${timeFormats[timeCycle]}`}
         </div>
-        <p
-          className="date"
-          onClick={() => {
-            changeDateFormat();
-            setTutorialStepTwo(false);
-            {
-              isStartingTutorial && setTutorialStepThree(true);
-            }
-          }}
-        >
-          {isStartingTutorial && tutorialStepTwo ? "click here for date" : `${dateFormats[dateCycle]}`}
-        </p>
+        {!tutorialStepOne ? (
+          <p
+            className="date"
+            onClick={() => {
+              changeDateFormat();
+              setTutorialStepTwo(false);
+              {
+                isStartingTutorial && setTutorialStepThree(true);
+              }
+            }}
+          >
+            {isStartingTutorial && tutorialStepTwo ? "click here for date" : `${dateFormats[dateCycle]}`}
+          </p>
+        ) : (
+          <Text mb="13px" p={0}></Text>
+        )}
       </div>
     </>
   );
