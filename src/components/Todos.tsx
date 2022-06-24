@@ -20,11 +20,7 @@ const Text = ({
   completed,
   id,
   timestamp,
-  setTutorialStepThree,
-  tutorialStepThree,
 }: {
-  setTutorialStepThree: React.Dispatch<SetStateAction<boolean>>;
-  tutorialStepThree: boolean;
   todoList: Todo[];
   setTodoList: React.Dispatch<React.SetStateAction<Todo[]>>;
   text: string;
@@ -196,8 +192,6 @@ const Todos = ({
             width={width}
             completed={completed}
             timestamp={timestamp}
-            setTutorialStepThree={setTutorialStepThree}
-            tutorialStepThree={tutorialStepThree}
           />
         );
       })}

@@ -3,7 +3,7 @@ import { SetStateAction } from "react";
 const Settings = ({ setMargin }: { setMargin: React.Dispatch<SetStateAction<string>> }) => {
   return (
     <>
-      <p>theme </p>
+      <p>theme</p>
       <div>
         <button>preset</button>
         <button>custom</button>

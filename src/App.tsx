@@ -1,11 +1,12 @@
+import TutorialMessage from "./components/TutorialMessage";
 import { useEffect, useState, useCallback } from "react";
-import "./App.css";
-import Todos from "./components/Todos";
 import ClickForInput from "./components/ClickForInput";
-import Header from "./components/Header";
 import LocalTime from "./components/LocalTime";
 import Settings from "./components/Settings";
-import TutorialMessage from "./components/TutorialMessage";
+import Header from "./components/Header";
+import Todos from "./components/Todos";
+import "./App.css";
+
 // import Input from "./components/Input";
 
 type Todo = {
@@ -38,6 +39,8 @@ type Coordinates = {
 // };
 
 function App() {
+  const [timeCycle, setTimeCycle] = useState<number>(Number(localStorage.getItem("time preference")) ?? 0);
+  const [dateCycle, setDateCycle] = useState<number>(Number(localStorage.getItem("date preference")) ?? 0);
   const [text, setText] = useState<string>(""); //used in original input will add again later
   const [todoList, setTodoList] = useState<Todo[]>(JSON.parse(localStorage.getItem("todoList")!) ?? []);
   const [isShowingSettings, setIsShowingSettings] = useState<boolean>(false);
@@ -81,8 +84,11 @@ function App() {
   //   },
   //   [setCords, setTextArea]
   // );
-
+  console.log(tutorialStepOne);
   useEffect(() => {
+    todoList.find((todo) => todo.id == todo.id) && setIsStartingTutorial(false);
+    todoList.find((todo) => todo.id == todo.id) && setTutorialStepOne(false);
+    todoList.find((todo) => todo.id == todo.id) && setTutorialStepTwo(false);
     todoList.find((todo) => todo.id == todo.id) && setTutorialStepThree(false);
   }, [todoList]);
   useEffect(() => {
@@ -113,26 +119,34 @@ function App() {
       {showTextArea && <ClickForInput cords={cords} setShowTextArea={setShowTextArea} todoList={todoList} setTodoList={setTodoList} />}
       <Header
         isShowingSettings={isShowingSettings}
-        setIsShowingSettings={setIsShowingSettings}
-        setIsStartingTutorial={setIsStartingTutorial}
         isStartingTutorial={isStartingTutorial}
+        setIsStartingTutorial={setIsStartingTutorial}
+        setTutorialStepOne={setTutorialStepOne}
+        setTutorialStepTwo={setTutorialStepTwo}
+        setTutorialStepThree={setTutorialStepThree}
+        setIsShowingSettings={setIsShowingSettings}
+        setDateCycle={setDateCycle}
+        setTimeCycle={setTimeCycle}
       />
       {isShowingSettings && <Settings setMargin={setMargin} />}
       {!isShowingSettings && (
         <>
           <div className="app">
             <LocalTime
-              setIsStartingTutorial={setIsStartingTutorial}
               isStartingTutorial={isStartingTutorial}
-              tutorialStepTwo={tutorialStepTwo}
-              setTutorialStepTwo={setTutorialStepTwo}
               tutorialStepOne={tutorialStepOne}
+              tutorialStepTwo={tutorialStepTwo}
               setTutorialStepOne={setTutorialStepOne}
+              setTutorialStepTwo={setTutorialStepTwo}
               setTutorialStepThree={setTutorialStepThree}
+              timeCycle={timeCycle}
+              dateCycle={dateCycle}
+              setTimeCycle={setTimeCycle}
+              setDateCycle={setDateCycle}
             />
             {/* <Input text={text} setText={setText} todoList={todoList} setTodoList={setTodoList} /> */}
             <Todos todoList={todoList} setTodoList={setTodoList} setText={setText} setTutorialStepThree={setTutorialStepThree} tutorialStepThree={tutorialStepThree} />
-            <TutorialMessage isStartingTutorial={isStartingTutorial} setIsStartingTutorial={setIsStartingTutorial} tutorialStepThree={tutorialStepThree} />
+            <TutorialMessage isStartingTutorial={isStartingTutorial} tutorialStepThree={tutorialStepThree} />
           </div>
         </>
       )}
