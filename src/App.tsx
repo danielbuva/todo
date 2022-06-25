@@ -41,6 +41,7 @@ type Coordinates = {
 function App() {
   const [timeCycle, setTimeCycle] = useState<number>(Number(localStorage.getItem("time preference")) ?? 0);
   const [dateCycle, setDateCycle] = useState<number>(Number(localStorage.getItem("date preference")) ?? 0);
+  const [greetingCycle, setGreetingCycle] = useState<number>(0);
   const [text, setText] = useState<string>(""); //used in original input will add again later
   const [todoList, setTodoList] = useState<Todo[]>(JSON.parse(localStorage.getItem("todoList")!) ?? []);
   const [isShowingSettings, setIsShowingSettings] = useState<boolean>(false);
@@ -64,8 +65,9 @@ function App() {
       event.preventDefault();
       setCords({ x: event.pageX, y: event.pageY });
       setShowTextArea(true);
+      setGreetingCycle(greetingCycle + 1);
     },
-    [setCords, setShowTextArea]
+    [setCords, setShowTextArea, greetingCycle]
   );
   // const handleClick = useCallback(() => (showTextArea ? setShowTextArea(false) : null), [showTextArea]);
   // const handleContextMenu = useCallback(
@@ -116,7 +118,7 @@ function App() {
   return (
     <div className={margin}>
       {/* {menu && <ContextMenu cords1={cords1} />} */}
-      {showTextArea && <ClickForInput cords={cords} setShowTextArea={setShowTextArea} todoList={todoList} setTodoList={setTodoList} />}
+      {showTextArea && <ClickForInput cords={cords} setShowTextArea={setShowTextArea} todoList={todoList} setTodoList={setTodoList} greetingCycle={greetingCycle} setGreetingCycle={setGreetingCycle}/>}
       <Header
         isShowingSettings={isShowingSettings}
         isStartingTutorial={isStartingTutorial}

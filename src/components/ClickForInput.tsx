@@ -16,13 +16,17 @@ const ClickForInput = ({
   setTodoList,
   cords,
   setShowTextArea,
+  greetingCycle,
+  setGreetingCycle,
 }: {
   todoList: Todo[];
   setTodoList: React.Dispatch<React.SetStateAction<Todo[]>>;
   cords: Coordinates;
   setShowTextArea: React.Dispatch<React.SetStateAction<boolean>>;
+  greetingCycle: number;
+  setGreetingCycle: React.Dispatch<React.SetStateAction<number>>; 
 }) => {
-  const [greetingCycle, setGreetingCycle] = useState<number>(0);
+
   const [width, setWidth] = useState<string>("154px");
   const [newText, setNewText] = useState<string>("");
   const newTextAreaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -67,6 +71,8 @@ const ClickForInput = ({
   };
 
   const greetings = [
+    "",
+    "add task",
     "hello",
     "oi",
     "greetings",
@@ -75,10 +81,12 @@ const ClickForInput = ({
     "nice to see you",
     "wyd",
     "how's it going?",
+    "heyo gamer",
     "help me I'm trapped in here",
     "good to see you",
     "wyd today",
     "wyd rn",
+    "hey brother",
     "sup",
     "hi",
     "oi",
@@ -89,6 +97,9 @@ const ClickForInput = ({
     "let's get stuff done",
     "good job",
     "pls help me",
+    "hey gamer",
+    "heyo"
+    
   ];
   useEffect(() => {
     greetingCycle == greetings.length && setGreetingCycle(0);
