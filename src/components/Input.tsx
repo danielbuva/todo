@@ -1,23 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
+import { InputValue } from "../lib/theme/types";
 import { nanoid } from "nanoid";
-type Todo = {
-  text: string;
-  height: string;
-  width: string;
-  id: string;
-  completed: string;
-  timestamp: string;
-};
-const Input = ({
-  text,
-  setText,
-  setTodoList,
-}: {
-  text: string;
-  setText: React.Dispatch<React.SetStateAction<string>>;
-  todoList: Todo[];
-  setTodoList: React.Dispatch<React.SetStateAction<Todo[]>>;
-}) => {
+
+const Input = ({ text, setText, setTodoList }: InputValue) => {
   const [greeting, setGreeting] = useState<string>("");
   const [width, setWidth] = useState<string>("154px");
   const [height, setHeight] = useState<string>("23px");

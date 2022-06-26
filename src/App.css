@@ -119,7 +119,6 @@
 textarea {
   border: none;
   background-color: transparent;
-  /* border-bottom: 1px solid black; */
   resize: none;
   overflow: hidden;
   outline: none;
@@ -136,9 +135,6 @@ textarea {
 textarea:focus {
   outline: none !important;
 }
-/* .enter-item {
-  margin-bottom: 30px;
-} */
 .enter-item::placeholder {
   opacity: 0.5;
   transition: all 1.5s cubic-bezier(0.04, 0.93, 0.75, 1);
@@ -203,7 +199,7 @@ textarea:focus {
   padding-top: 0;
   opacity: 0;
   /* border: solid black; */
-  transition: all 1.5s cubic-bezier(.01,.57,.27,.93) !important;
+  transition: all 1.5s cubic-bezier(0.01, 0.57, 0.27, 0.93) !important;
 }
 .buttons {
   margin: 0;
@@ -244,6 +240,7 @@ textarea:focus {
   opacity: 1;
 }
 .clear-all-button-invisible {
+  background: transparent;
   border: none;
   cursor: auto;
   width: fit-content;
@@ -254,20 +251,21 @@ textarea:focus {
 }
 .clear-all-button,
 .clear-completed-button {
+  background: transparent;
   border: none;
   cursor: pointer;
   width: fit-content;
   margin: 0;
   opacity: 0.14;
   transition: all 0.3s ease-out;
-  transition: all 1s cubic-bezier(.01,.57,.27,.93) !important
+  transition: all 1s cubic-bezier(0.01, 0.57, 0.27, 0.93) !important;
 }
 .clear-all-button:hover,
 .clear-completed-button:hover {
   opacity: 1 !important;
   transition: all 0.5s cubic-bezier(0.5, 0.6, 0.55, 0.54) !important;
 }
-.menu {
+/* .menu {
   font-size: 14px;
   background-color: #fff;
   border-radius: 2px;
@@ -275,14 +273,13 @@ textarea:focus {
   width: 150px;
   height: auto;
   margin: 0;
-  /* use absolute positioning  */
   position: absolute;
   list-style: none;
   box-shadow: 0 0 20px 0 #c2b5b5;
   opacity: 1;
   transition: opacity 0.5s linear;
-}
-@media only screen and (max-width: 700px) {
+} */
+/* @media only screen and (max-width: 700px) {
   textarea {
     -webkit-text-fill-color: white !important;
     color: white !important;
@@ -297,7 +294,7 @@ textarea:focus {
     overflow-x: hidden;
   }
   .clock {
-    /* margin-top: -500px; */
+    margin-top: -500px;
 
     position: -webkit-sticky !important;
     position: sticky !important;
@@ -316,7 +313,7 @@ textarea:focus {
     border-bottom: #d5c0ae solid 1px;
     align-items: center;
     transition: all 0.25s ease-in-out;
-    /* border: red solid; */
+    border: red solid;
   }
   .entered-item {
     border: none;
@@ -325,7 +322,7 @@ textarea:focus {
     width: 250px;
     margin-bottom: 0;
     padding: 0;
-    /* border: solid blue; */
+    border: solid blue;
   }
   .timestamp {
     font-size: 13px;
@@ -334,4 +331,4 @@ textarea:focus {
     transform: translate(240px, -30px);
     display: none;
   }
-}
+} */

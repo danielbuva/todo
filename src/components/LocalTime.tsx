@@ -1,47 +1,14 @@
+import { LocalTimeConfig } from "../lib/theme/types";
+import { useState, useEffect } from "react";
 import { Text } from "@chakra-ui/react";
-import React, { useState, useEffect, SetStateAction } from "react";
 
-const LocalTime = ({
-  isStartingTutorial,
-  tutorialStepTwo,
-  setTutorialStepTwo,
-  tutorialStepOne,
-  setTutorialStepOne,
-  setTutorialStepThree,
-  dateCycle,
-  setDateCycle,
-  timeCycle,
-  setTimeCycle,
-}: {
-  isStartingTutorial: boolean;
-  tutorialStepTwo: boolean;
-  setTutorialStepTwo: React.Dispatch<SetStateAction<boolean>>;
-  tutorialStepOne: boolean;
-  setTutorialStepOne: React.Dispatch<SetStateAction<boolean>>;
-  setTutorialStepThree: React.Dispatch<SetStateAction<boolean>>;
-  timeCycle: number;
-  setTimeCycle: React.Dispatch<SetStateAction<number>>;
-  dateCycle: number;
-  setDateCycle: React.Dispatch<SetStateAction<number>>;
-}) => {
+const LocalTime = ({ tutorialToggled, stepOne, stepTwo, setStepOne, setStepTwo, setStepThree, tCycle, dCycle, setTCycle, setDCycle }: LocalTimeConfig) => {
   const [time, setTime] = useState({ clock: new Date() }); //initial state is an object where clock is a new Date
-
-  // const [clockTutorialMessage, setClockTutorialMessage] = useState<string | null>(isStartingTutorial ? "click here for clock" : null);
-  // const [dateTutorialMessage, setDateTutorialMessage] = useState<string | null>(tutorialStepTwo ? "click here for date" : null);
-  // console.log(clockTutorialMessage)
-  // console.log(isStartingTutorial)
-  // console.log(dateTutorialMessage)
-
-  useEffect(() => {
-    isStartingTutorial && setTutorialStepOne(true);
-  }, [isStartingTutorial]);
 
   const tick = () => {
     setTime({ clock: new Date() });
   }; // updates the state
-  useEffect(() => {
-    setInterval(() => tick(), 1000); //every second the state is updated
-  }, []); //every update the useEffect renders again
+
   const timeFormats = [
     "",
     time.clock.toLocaleTimeString(),
@@ -58,6 +25,7 @@ const LocalTime = ({
       .replace("AM", "")
       .replace("PM", ""),
   ];
+
   const dateFormats = [
     "",
     time.clock.toLocaleDateString([], {
@@ -81,26 +49,37 @@ const LocalTime = ({
     }),
     time.clock.toLocaleDateString(),
   ];
+
   const changeTimeFormat = () => {
-    setTimeCycle(timeCycle + 1);
+    setTCycle(tCycle + 1);
   };
+
   useEffect(() => {
-    timeCycle == 5 && setTimeCycle(0);
-  }, [timeCycle]);
+    tCycle == timeFormats.length && setTCycle(0);
+  }, [tCycle]);
   const changeDateFormat = () => {
-    setDateCycle(dateCycle + 1);
+    setDCycle(dCycle + 1);
   };
+
   useEffect(() => {
-    dateCycle == 6 && setDateCycle(0);
-  }, [dateCycle]);
+    dCycle == dateFormats.length && setDCycle(0);
+  }, [dCycle]);
+
   useEffect(() => {
-    localStorage.setItem("time preference", JSON.stringify(timeCycle));
-  }, [timeCycle]);
+    setInterval(() => tick(), 1000); //every second the state is updated
+  }, []); //every update the useEffect renders again
+
   useEffect(() => {
-    localStorage.setItem("date preference", JSON.stringify(dateCycle));
-  }, [dateCycle]);
-  // console.log(tutorialStepOne)
-  // console.log(tutorialStepOne)
+    localStorage.setItem("time format preference", JSON.stringify(tCycle));
+  }, [tCycle]);
+
+  useEffect(() => {
+    localStorage.setItem("date format preference", JSON.stringify(dCycle));
+  }, [dCycle]);
+
+  useEffect(() => {
+    tutorialToggled && setStepOne(true);
+  }, [tutorialToggled]);
   return (
     <>
       <div className="clock">
@@ -108,26 +87,26 @@ const LocalTime = ({
           className="time"
           onClick={() => {
             changeTimeFormat();
-            setTutorialStepOne(false);
+            setStepOne(false);
             {
-              isStartingTutorial && setTutorialStepTwo(true);
+              tutorialToggled && setStepTwo(true);
             }
           }}
         >
-          {isStartingTutorial && tutorialStepOne ? <p className="clock-tutorial">click here for clock</p> : `${timeFormats[timeCycle]}`}
+          {tutorialToggled && stepOne ? <p className="clock-tutorial">click here for clock</p> : `${timeFormats[tCycle]}`}
         </div>
-        {!tutorialStepOne ? (
+        {!stepOne ? (
           <p
             className="date"
             onClick={() => {
               changeDateFormat();
-              setTutorialStepTwo(false);
+              setStepTwo(false);
               {
-                isStartingTutorial && setTutorialStepThree(true);
+                tutorialToggled && setStepThree(true);
               }
             }}
           >
-            {isStartingTutorial && tutorialStepTwo ? "click here for date" : `${dateFormats[dateCycle]}`}
+            {tutorialToggled && stepTwo ? "click here for date" : `${dateFormats[dCycle]}`}
           </p>
         ) : (
           <Text mb="13px" p={0}></Text>

@@ -1,154 +1,103 @@
+import DoubleClickForInput from "./components/DoubleClickForInput";
 import TutorialMessage from "./components/TutorialMessage";
+import { Point, TodoInterface } from "./lib/theme/types";
 import { useEffect, useState, useCallback } from "react";
-import ClickForInput from "./components/ClickForInput";
 import LocalTime from "./components/LocalTime";
 import Settings from "./components/Settings";
 import Header from "./components/Header";
-import Todos from "./components/Todos";
+import Input from "./components/Input";
+import List from "./components/List";
 import "./App.css";
 
-// import Input from "./components/Input";
-
-type Todo = {
-  text: string;
-  height: string;
-  width: string;
-  id: string;
-  completed: string;
-  timestamp: string;
-};
-type Coordinates = {
-  x: number;
-  y: number;
-};
-// const ContextMenu = ({ cords1 }: { cords1: Coordinates }) => {
-//   return (
-//     <>
-//       <div
-//         className="menu"
-//         style={{
-//           top: cords1.y,
-//           left: cords1.x,
-//         }}
-//       >
-//         <textarea/>
-
-//       </div>
-//     </>
-//   );
-// };
-
 function App() {
-  const [timeCycle, setTimeCycle] = useState<number>(Number(localStorage.getItem("time preference")) ?? 0);
-  const [dateCycle, setDateCycle] = useState<number>(Number(localStorage.getItem("date preference")) ?? 0);
-  const [greetingCycle, setGreetingCycle] = useState<number>(0);
   const [text, setText] = useState<string>(""); //used in original input will add again later
-  const [todoList, setTodoList] = useState<Todo[]>(JSON.parse(localStorage.getItem("todoList")!) ?? []);
-  const [isShowingSettings, setIsShowingSettings] = useState<boolean>(false);
-  const [cords, setCords] = useState<Coordinates>({ x: 0, y: 0 });
-  const [showTextArea, setShowTextArea] = useState<boolean>(false);
-  const [margin, setMargin] = useState<string>("");
-  const [isStartingTutorial, setIsStartingTutorial] = useState<boolean>(false);
-  const [tutorialStepTwo, setTutorialStepTwo] = useState<boolean>(false);
-  const [tutorialStepOne, setTutorialStepOne] = useState<boolean>(false);
-  const [tutorialStepThree, setTutorialStepThree] = useState<boolean>(false);
-  // const [cords1, setCords1] = useState<Coordinates>({ x: 0, y: 0 });
-  // const [menu, setMenu] = useState<boolean>(false);
-  // const [greetingCycle, setGreetingCycle] = useState<number>(0);
-  // useEffect(() => {
-  //   isStartingTutorial && !tutorialStepOne && !tutorialStepTwo && setTutorialStepThree(true);
-  // }, [tutorialStepTwo]);
-  // console.log(tutorialStepThree)
 
+  //     s = settings
+  const [sToggled, setSToggled] = useState<boolean>(false);
+  const [cords, setCords] = useState<Point>({ x: 0, y: 0 });
+
+  const [margin, setMargin] = useState<string>("");
+
+  //     tutorial message states
+  const [stepOne, setStepOne] = useState<boolean>(false);
+  const [stepTwo, setStepTwo] = useState<boolean>(false);
+  const [stepThree, setStepThree] = useState<boolean>(false);
+  const [tutorialToggled, setTutorialToggled] = useState<boolean>(false);
+  const [showTextArea, setShowTextArea] = useState<boolean>(false);
+
+  //     g = greeting, t = time, d = date
+  const [gCycle, setGCycle] = useState<number>(0);
+  const [tCycle, setTCycle] = useState<number>(Number(localStorage.getItem("time format preference")) ?? 0); //default time and date format is the last set time format preference otherwise it is blank
+  const [dCycle, setDCycle] = useState<number>(Number(localStorage.getItem("date format preference")) ?? 0);
+  const [todoList, setTodoList] = useState<TodoInterface[]>(JSON.parse(localStorage.getItem("todoList")!) ?? []);
+
+  //on every double click show a text area and new greeting
   const handleDoubleClick = useCallback(
     (event: MouseEvent) => {
       event.preventDefault();
-      setCords({ x: event.pageX, y: event.pageY });
+      setCords({ x: event.pageX, y: event.pageY }); //sets the position of the text area
       setShowTextArea(true);
-      setGreetingCycle(greetingCycle + 1);
+      setGCycle(gCycle + 1);
     },
-    [setCords, setShowTextArea, greetingCycle]
+    [setCords, setShowTextArea, gCycle]
   );
-  // const handleClick = useCallback(() => (showTextArea ? setShowTextArea(false) : null), [showTextArea]);
-  // const handleContextMenu = useCallback(
-  //   (event: any) => {
-  //     event.preventDefault();
-  //     setCords1({ x: event.pageX, y: event.pageY });
-  //     setMenu(true);
-  //   },
-  //   [setCords1, setMenu]
-  // );
-  // const handleContextMenu = useCallback(
-  //   (event: any) => {
-  //     event.preventDefault();
-  //     setCords({ x: event.pageX, y: event.pageY });
-  //     setTextArea(true);
-  //   },
-  //   [setCords, setTextArea]
-  // );
-  console.log(tutorialStepOne);
+
   useEffect(() => {
-    todoList.find((todo) => todo.id == todo.id) && setIsStartingTutorial(false);
-    todoList.find((todo) => todo.id == todo.id) && setTutorialStepOne(false);
-    todoList.find((todo) => todo.id == todo.id) && setTutorialStepTwo(false);
-    todoList.find((todo) => todo.id == todo.id) && setTutorialStepThree(false);
+    localStorage.setItem("todoList", JSON.stringify(todoList));
   }, [todoList]);
+
   useEffect(() => {
     document.addEventListener("dblclick", handleDoubleClick);
     return () => {
       document.removeEventListener("dblclick", handleDoubleClick);
     };
   }, [handleDoubleClick]);
-  // useEffect(() => {
-  //   document.addEventListener("click", handleClick);
-  //   return () => {
-  //     document.removeEventListener("click", handleClick);
-  //   };
-  // });
 
-  // useEffect(() => {
-  //   document.addEventListener("contextmenu", handleContextMenu);
-  //   return () => {
-  //     document.removeEventListener("contextmenu", handleContextMenu);
-  //   };
-  // });
   useEffect(() => {
-    localStorage.setItem("todoList", JSON.stringify(todoList));
-  }, [todoList]);
+    const listExists = todoList.find((todo) => todo.id == todo.id);
+    if (listExists) {
+      // if the user created a todo item then set all tutorial messages to false
+      setTutorialToggled(false);
+      setStepOne(false);
+      setStepTwo(false);
+      setStepThree(false);
+    }
+  }, [todoList]); // checks if lists exists on first render and when you enter a todo item
   return (
     <div className={margin}>
-      {/* {menu && <ContextMenu cords1={cords1} />} */}
-      {showTextArea && <ClickForInput cords={cords} setShowTextArea={setShowTextArea} todoList={todoList} setTodoList={setTodoList} greetingCycle={greetingCycle} setGreetingCycle={setGreetingCycle}/>}
+      {showTextArea && (
+        <DoubleClickForInput cords={cords} todoList={todoList} setTodoList={setTodoList} gCycle={gCycle} setGCycle={setGCycle} setShowTextArea={setShowTextArea} />
+      )}
       <Header
-        isShowingSettings={isShowingSettings}
-        isStartingTutorial={isStartingTutorial}
-        setIsStartingTutorial={setIsStartingTutorial}
-        setTutorialStepOne={setTutorialStepOne}
-        setTutorialStepTwo={setTutorialStepTwo}
-        setTutorialStepThree={setTutorialStepThree}
-        setIsShowingSettings={setIsShowingSettings}
-        setDateCycle={setDateCycle}
-        setTimeCycle={setTimeCycle}
+        setDCycle={setDCycle}
+        setTCycle={setTCycle}
+        sToggled={sToggled}
+        tutorialToggled={tutorialToggled}
+        setTutorialToggled={setTutorialToggled}
+        setStepOne={setStepOne}
+        setStepTwo={setStepTwo}
+        setStepThree={setStepThree}
+        setSToggled={setSToggled}
       />
-      {isShowingSettings && <Settings setMargin={setMargin} />}
-      {!isShowingSettings && (
+      {sToggled && <Settings setMargin={setMargin} />}
+      {!sToggled && (
         <>
           <div className="app">
             <LocalTime
-              isStartingTutorial={isStartingTutorial}
-              tutorialStepOne={tutorialStepOne}
-              tutorialStepTwo={tutorialStepTwo}
-              setTutorialStepOne={setTutorialStepOne}
-              setTutorialStepTwo={setTutorialStepTwo}
-              setTutorialStepThree={setTutorialStepThree}
-              timeCycle={timeCycle}
-              dateCycle={dateCycle}
-              setTimeCycle={setTimeCycle}
-              setDateCycle={setDateCycle}
+              tCycle={tCycle}
+              dCycle={dCycle}
+              setTCycle={setTCycle}
+              setDCycle={setDCycle}
+              tutorialToggled={tutorialToggled}
+              stepOne={stepOne}
+              stepTwo={stepTwo}
+              setStepOne={setStepOne}
+              setStepTwo={setStepTwo}
+              setStepThree={setStepThree}
             />
-            {/* <Input text={text} setText={setText} todoList={todoList} setTodoList={setTodoList} /> */}
-            <Todos todoList={todoList} setTodoList={setTodoList} setText={setText} setTutorialStepThree={setTutorialStepThree} tutorialStepThree={tutorialStepThree} />
-            <TutorialMessage isStartingTutorial={isStartingTutorial} tutorialStepThree={tutorialStepThree} />
+            <Input text={text} setText={setText} todoList={todoList} setTodoList={setTodoList} />
+            <List todoList={todoList} setTodoList={setTodoList} />
+            <TutorialMessage tutorialToggled={tutorialToggled} stepThree={stepThree} />
           </div>
         </>
       )}

@@ -1,87 +1,43 @@
-import { Setting2 } from "iconsax-react";
+import { HeaderValue, TutorialToggleFxn } from "../lib/theme/types";
 import { BsInfoLg } from "react-icons/Bs";
-import { SetStateAction } from "react";
-// type Todo = {
-//   text: string;
-//   height: string;
-//   width: string;
-//   id: string;
-//   completed: string;
-//   timestamp: string;
-// };
-const Info = ({
-  setIsStartingTutorial,
-  isStartingTutorial,
-  setTutorialStepOne,
-  setTutorialStepTwo,
-  setTutorialStepThree,
-  setDateCycle,
-  setTimeCycle,
-}: {
-  setIsStartingTutorial: React.Dispatch<SetStateAction<boolean>>;
-  isStartingTutorial: boolean;
-  setTutorialStepOne: React.Dispatch<SetStateAction<boolean>>;
-  setTutorialStepTwo: React.Dispatch<SetStateAction<boolean>>;
-  setTutorialStepThree: React.Dispatch<SetStateAction<boolean>>;
-  setDateCycle: React.Dispatch<SetStateAction<number>>;
-  setTimeCycle: React.Dispatch<SetStateAction<number>>;
-}) => {
+import { Setting2 } from "iconsax-react";
+
+const Info = ({ setDCycle, setTCycle, tutorialToggled, setTutorialToggled, setStepOne, setStepTwo, setStepThree }: TutorialToggleFxn) => {
   return (
     <>
       <BsInfoLg
         className="info-button"
         onClick={() => {
-          setIsStartingTutorial(!isStartingTutorial);
+          setTutorialToggled(!tutorialToggled);
           {
-            isStartingTutorial && setTutorialStepOne(false);
+            tutorialToggled && setStepOne(false);
           }
-          setTutorialStepTwo(false);
-          setTutorialStepThree(false);
+          setStepTwo(false);
+          setStepThree(false);
           {
-            !isStartingTutorial && setTimeCycle(0);
+            !tutorialToggled && setTCycle(0);
           }
           {
-            !isStartingTutorial && setDateCycle(0);
+            !tutorialToggled && setDCycle(0);
           }
         }}
       />
     </>
   );
 };
-
-const Header = ({
-  isShowingSettings,
-  setIsShowingSettings,
-  isStartingTutorial,
-  setIsStartingTutorial,
-  setTutorialStepOne,
-  setTutorialStepTwo,
-  setTutorialStepThree,
-  setDateCycle,
-  setTimeCycle,
-}: {
-  isShowingSettings: boolean;
-  setIsShowingSettings: React.Dispatch<SetStateAction<boolean>>;
-  isStartingTutorial: boolean;
-  setIsStartingTutorial: React.Dispatch<SetStateAction<boolean>>;
-  setTutorialStepOne: React.Dispatch<SetStateAction<boolean>>;
-  setTutorialStepTwo: React.Dispatch<SetStateAction<boolean>>;
-  setTutorialStepThree: React.Dispatch<SetStateAction<boolean>>;
-  setDateCycle: React.Dispatch<SetStateAction<number>>;
-  setTimeCycle: React.Dispatch<SetStateAction<number>>;
-}) => {
+const Header = ({ sToggled, setSToggled, tutorialToggled, setTutorialToggled, setStepOne, setStepTwo, setStepThree, setDCycle, setTCycle }: HeaderValue) => {
   return (
     <div className="nav">
       <Info
-        setIsStartingTutorial={setIsStartingTutorial}
-        isStartingTutorial={isStartingTutorial}
-        setTutorialStepThree={setTutorialStepThree}
-        setDateCycle={setDateCycle}
-        setTimeCycle={setTimeCycle}
-        setTutorialStepOne={setTutorialStepOne}
-        setTutorialStepTwo={setTutorialStepTwo}
+        setTutorialToggled={setTutorialToggled}
+        tutorialToggled={tutorialToggled}
+        setDCycle={setDCycle}
+        setTCycle={setTCycle}
+        setStepOne={setStepOne}
+        setStepTwo={setStepTwo}
+        setStepThree={setStepThree}
       />
-      <Setting2 size="21" color="black" cursor="pointer" className="settings-button" onClick={() => setIsShowingSettings(!isShowingSettings)} />
+      <Setting2 size="21" color="black" cursor="pointer" className="settings-button" onClick={() => setSToggled(!sToggled)} />
     </div>
   );
 };
