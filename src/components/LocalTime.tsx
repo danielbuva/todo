@@ -1,8 +1,19 @@
-import { LocalTimeConfig } from "../lib/theme/types";
-import { useState, useEffect } from "react";
-import { Text } from "@chakra-ui/react";
+import { LocalTimeConfig } from '../lib/theme/types';
+import { useState, useEffect } from 'react';
+import { Text } from '@chakra-ui/react';
 
-const LocalTime = ({ tutorialToggled, stepOne, stepTwo, setStepOne, setStepTwo, setStepThree, tCycle, dCycle, setTCycle, setDCycle }: LocalTimeConfig) => {
+const LocalTime = ({
+  tutorialToggled,
+  stepOne,
+  stepTwo,
+  setStepOne,
+  setStepTwo,
+  setStepThree,
+  tCycle,
+  dCycle,
+  setTCycle,
+  setDCycle,
+}: LocalTimeConfig) => {
   const [time, setTime] = useState({ clock: new Date() }); //initial state is an object where clock is a new Date
 
   const tick = () => {
@@ -10,42 +21,42 @@ const LocalTime = ({ tutorialToggled, stepOne, stepTwo, setStepOne, setStepTwo, 
   }; // updates the state
 
   const timeFormats = [
-    "",
+    '',
     time.clock.toLocaleTimeString(),
     time.clock.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
+      hour: '2-digit',
+      minute: '2-digit',
     }),
-    time.clock.toLocaleTimeString().replace("AM", "").replace("PM", ""),
+    time.clock.toLocaleTimeString().replace('AM', '').replace('PM', ''),
     time.clock
       .toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
+        hour: '2-digit',
+        minute: '2-digit',
       })
-      .replace("AM", "")
-      .replace("PM", ""),
+      .replace('AM', '')
+      .replace('PM', ''),
   ];
 
   const dateFormats = [
-    "",
+    '',
     time.clock.toLocaleDateString([], {
-      month: "long",
-      day: "numeric",
-      weekday: "long",
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long',
     }),
     time.clock.toLocaleDateString([], {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-      year: "numeric",
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
     }),
     time.clock.toLocaleDateString([], {
-      month: "long",
-      day: "numeric",
+      month: 'long',
+      day: 'numeric',
     }),
     time.clock.toLocaleDateString([], {
-      day: "numeric",
-      weekday: "long",
+      day: 'numeric',
+      weekday: 'long',
     }),
     time.clock.toLocaleDateString(),
   ];
@@ -70,11 +81,11 @@ const LocalTime = ({ tutorialToggled, stepOne, stepTwo, setStepOne, setStepTwo, 
   }, []); //every update the useEffect renders again
 
   useEffect(() => {
-    localStorage.setItem("time format preference", JSON.stringify(tCycle));
+    localStorage.setItem('time format preference', JSON.stringify(tCycle));
   }, [tCycle]);
 
   useEffect(() => {
-    localStorage.setItem("date format preference", JSON.stringify(dCycle));
+    localStorage.setItem('date format preference', JSON.stringify(dCycle));
   }, [dCycle]);
 
   useEffect(() => {
@@ -93,7 +104,11 @@ const LocalTime = ({ tutorialToggled, stepOne, stepTwo, setStepOne, setStepTwo, 
             }
           }}
         >
-          {tutorialToggled && stepOne ? <p className="clock-tutorial">click here for clock</p> : `${timeFormats[tCycle]}`}
+          {tutorialToggled && stepOne ? (
+            <p className="clock-tutorial">click here for clock</p>
+          ) : (
+            `${timeFormats[tCycle]}`
+          )}
         </div>
         {!stepOne ? (
           <p
@@ -106,7 +121,7 @@ const LocalTime = ({ tutorialToggled, stepOne, stepTwo, setStepOne, setStepTwo, 
               }
             }}
           >
-            {tutorialToggled && stepTwo ? "click here for date" : `${dateFormats[dCycle]}`}
+            {tutorialToggled && stepTwo ? 'click here for date' : `${dateFormats[dCycle]}`}
           </p>
         ) : (
           <Text mb="13px" p={0}></Text>

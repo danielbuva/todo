@@ -1,8 +1,16 @@
-import { HeaderValue, TutorialToggleFxn } from "../lib/theme/types";
-import { BsInfoLg } from "react-icons/Bs";
-import { Setting2 } from "iconsax-react";
+import { HeaderValue, TutorialToggleFxn } from '../lib/theme/types';
+import { BsInfoLg } from 'react-icons/Bs';
+import { Setting2 } from 'iconsax-react';
 
-const Info = ({ setDCycle, setTCycle, tutorialToggled, setTutorialToggled, setStepOne, setStepTwo, setStepThree }: TutorialToggleFxn) => {
+const Info = ({
+  setDCycle,
+  setTCycle,
+  tutorialToggled,
+  setTutorialToggled,
+  setStepOne,
+  setStepTwo,
+  setStepThree,
+}: TutorialToggleFxn) => {
   return (
     <>
       <BsInfoLg
@@ -25,7 +33,17 @@ const Info = ({ setDCycle, setTCycle, tutorialToggled, setTutorialToggled, setSt
     </>
   );
 };
-const Header = ({ sToggled, setSToggled, tutorialToggled, setTutorialToggled, setStepOne, setStepTwo, setStepThree, setDCycle, setTCycle }: HeaderValue) => {
+const Header = ({
+  sToggled,
+  setSToggled,
+  tutorialToggled,
+  setTutorialToggled,
+  setStepOne,
+  setStepTwo,
+  setStepThree,
+  setDCycle,
+  setTCycle,
+}: HeaderValue) => {
   return (
     <div className="nav">
       <Info
@@ -37,7 +55,13 @@ const Header = ({ sToggled, setSToggled, tutorialToggled, setTutorialToggled, se
         setStepTwo={setStepTwo}
         setStepThree={setStepThree}
       />
-      <Setting2 size="21" color="black" cursor="pointer" className="settings-button" onClick={() => setSToggled(!sToggled)} />
+      <Setting2
+        size="21"
+        color="black"
+        cursor="pointer"
+        className="settings-button"
+        onClick={() => setSToggled(!sToggled)}
+      />
     </div>
   );
 };

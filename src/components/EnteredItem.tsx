@@ -1,8 +1,17 @@
-import { CloseCircle, ArrowCircleDown, MinusCirlce } from "iconsax-react";
-import { EnteredItemValue } from "../lib/theme/types";
-import { useRef, useState } from "react";
+import { CloseCircle, ArrowCircleDown, MinusCirlce } from 'iconsax-react';
+import { EnteredItemValue } from '../lib/theme/types';
+import { useRef, useState } from 'react';
 
-const EnteredItem = ({ todoList, setTodoList, text, height, width, completed, id, timestamp }: EnteredItemValue) => {
+const EnteredItem = ({
+  todoList,
+  setTodoList,
+  text,
+  height,
+  width,
+  completed,
+  id,
+  timestamp,
+}: EnteredItemValue) => {
   const [newText, setNewText] = useState<string>(text);
   const [showSave, setShowSave] = useState<boolean>(false);
   const textOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -13,20 +22,20 @@ const EnteredItem = ({ todoList, setTodoList, text, height, width, completed, id
     setTodoList(
       todoList.map((todo) => {
         if (todo.id == completedTask) {
-          if (todo.completed == "none") {
+          if (todo.completed == 'none') {
             return { ...todo, completed: `line-through` };
-          } else if (todo.completed == "line-through") {
+          } else if (todo.completed == 'line-through') {
             return { ...todo, completed: `none` };
           } else return todo;
         } else {
           return todo;
         }
-      })
+      }),
     );
   };
 
   const updatedTodo = (updatedTask: string) => {
-    if (newText.trim() != "") {
+    if (newText.trim() != '') {
       const updatedTodo = todoList.map((todo) => {
         if (todo.id == updatedTask) {
           return { ...todo, text: newText.trim() };
@@ -47,7 +56,7 @@ const EnteredItem = ({ todoList, setTodoList, text, height, width, completed, id
     const key = e.key;
 
     setShowSave(true);
-    if (key == "Enter" && !e.shiftKey) {
+    if (key == 'Enter' && !e.shiftKey) {
       updatedTodo(updatedTask);
       e.preventDefault();
       e.currentTarget.blur();
@@ -58,7 +67,7 @@ const EnteredItem = ({ todoList, setTodoList, text, height, width, completed, id
     setTodoList(
       todoList.filter((todo) => {
         return todo.id != deleteTask;
-      })
+      }),
     );
   };
   return (
@@ -67,7 +76,7 @@ const EnteredItem = ({ todoList, setTodoList, text, height, width, completed, id
         <div className="extra">
           <p className="timestamp">～{timestamp}～</p>
           <div className="buttons">
-            <CloseCircle onClick={() => deleteTodo(id)} className="delete-button" size={16} />{" "}
+            <CloseCircle onClick={() => deleteTodo(id)} className="delete-button" size={16} />{' '}
             <MinusCirlce
               onClick={() => {
                 completeTodo(id);
@@ -92,7 +101,11 @@ const EnteredItem = ({ todoList, setTodoList, text, height, width, completed, id
         <textarea
           ref={textAreaRef}
           className="entered-item"
-          style={{ height: `${height}`, width: `${width}`, textDecoration: `${completed}` }}
+          style={{
+            height: `${height}`,
+            width: `${width}`,
+            textDecoration: `${completed}`,
+          }}
           spellCheck="false"
           onKeyDown={(e) => {
             enterTodo(e, id);

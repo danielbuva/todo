@@ -1,27 +1,27 @@
-import { ListValue } from "../lib/theme/types";
-import EnteredItem from "./EnteredItem";
+import { ListValue } from '../lib/theme/types';
+import EnteredItem from './EnteredItem';
 
-const List = ({ todoList, setTodoList}: ListValue) => {
+const List = ({ todoList, setTodoList }: ListValue) => {
   const clearCompleted = () => {
     setTodoList(
       todoList.filter((todo) => {
-        return todo.completed != "line-through";
-      })
+        return todo.completed != 'line-through';
+      }),
     );
   };
   const clearAll = () => {
     setTodoList(
       todoList.filter((todo) => {
         return todo.id != todo.id;
-      })
+      }),
     );
   };
 
   return (
     <>
-      {todoList.find((todo) => todo.completed == "none") ? (
+      {todoList.find((todo) => todo.completed == 'none') ? (
         <button
-          style={{ marginTop: "20px" }}
+          style={{ marginTop: '20px' }}
           onClick={() => {
             clearAll();
           }}
@@ -47,7 +47,7 @@ const List = ({ todoList, setTodoList}: ListValue) => {
           />
         );
       })}
-      {todoList.find((todo) => todo.completed == "line-through") ? (
+      {todoList.find((todo) => todo.completed == 'line-through') ? (
         <button
           onClick={() => {
             clearCompleted();

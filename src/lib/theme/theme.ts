@@ -1,23 +1,23 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme } from '@chakra-ui/react';
 
 export const initial = extendTheme({
   styles: {
     global: () => ({
-      bg: "#d5c0ae",
+      bg: '#d5c0ae',
     }),
   },
 });
 export const blue = extendTheme({
   styles: {
     global: () => ({
-      bg: "blue",
+      bg: 'blue',
     }),
   },
 });
 export const yellow = extendTheme({
   styles: {
     global: () => ({
-      bg: "yellow",
+      bg: 'yellow',
     }),
   },
 });
